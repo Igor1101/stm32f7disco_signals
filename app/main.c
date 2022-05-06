@@ -109,12 +109,32 @@ void lcd_diagram(int*arr, size_t sz)
 		lcd_diag_item(i*10, rec_item, green_color);
 	}
 }
+int    Ai[8];
+int    Xi[8];
+int    result1,result2;
 void app_main(void) {
 
 	// memmap video mem
 	HAL_LTDC_SetAddress(&hltdc, (uint32_t) &RGB565_480x272, 0);
 	lcd_background(black_color);
-	exp_data();
+	__disable_irq();
+	// expA
+	extern int _sum(int *);			/* Assembly routine */
+	int x[2]={0x1234,0x4321};		/* define x1[ ] as global array */
+	int s;
+	s = _sum (x);
+	// expB
+	extern void _expb_1(void);
+	extern void _expb_2(void);
+	extern int _expb_3(int *, int *);
+	extern int _expb_4(int *, int *);
+
+	_expb_1();
+	_expb_2();
+	result1= _expb_3(Ai, Xi);
+	result2 = _expb_4(Ai, Xi);
+	//exp_data();
+	__enable_irq();
 }
 
 #define BUF_SIZE    40
