@@ -192,8 +192,9 @@ int exp_data(void)
             out12[i] = Gain*(((short int)(sineTable[i])&0xfff0))+Ac; /* Mask off 4-bit*/
             out8[i] = Gain*(((short int)(sineTable[i])&0xff00))+Ac; 	/* Mask off 8-bit*/
             out6[i] = Gain*((((short int)sineTable[i])&0xfc00))+Ac; 	/* Mask off 10-bit*/
+            out_buffer[j] = Gain*(0-(short int)sineTable[i]) + (rand() / (float)RAND_MAX * Noise)+Ac;
         }
-    	lcd_background(black_color);
+        lcd_background(black_color);
         lcd_diagram(0, out_buffer, sizeof(out_buffer)/ sizeof(int), green_color);
         osDelay(1000);
         lcd_diagram(2,out16, sizeof(out_buffer)/ sizeof(int), yellow_color);
